@@ -38,7 +38,7 @@ bool SequentialList::full() const
 
 SequentialList::DataType SequentialList::select(unsigned int index) const
 {
-	if (index <= size_ && index >= 0){
+	if (index <= size_){
 		return data_[index];
 	}
 	return data_[size_];
@@ -46,6 +46,11 @@ SequentialList::DataType SequentialList::select(unsigned int index) const
 
 unsigned int SequentialList::search(DataType val) const
 {
+	for (int i = 0; i < size_; i++) {
+		if (data_[i] == val)
+			return i;
+	}
+	return size_;
 }
 
 void SequentialList::print() const
@@ -94,10 +99,23 @@ bool SequentialList::remove(unsigned int index)
 
 bool SequentialList::remove_front()
 {
+	if (size_ == 0)	return true;
+	else if (size_ == 1) {
+		data_[0] = NULL;
+		size_ = 0;
+	}
+	else {
+		for (int i = 0; i < size_--; i++) {
+			data_[i] = data_[i + 1];
+		}
+	}
 }
 
 bool SequentialList::remove_back()
 {
+	if (size_ == 0)	return true;
+	data_[size_] = NULL;
+	size_--;
 }
 
 bool SequentialList::replace(unsigned int index, DataType val)
@@ -125,5 +143,3 @@ void SequentialList::sort_asc() {
     
 void SequentialList::sort_desc() {
 }
-
-
