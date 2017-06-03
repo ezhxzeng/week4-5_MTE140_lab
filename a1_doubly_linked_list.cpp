@@ -107,7 +107,7 @@ DoublyLinkedList::Node* DoublyLinkedList::getNode(unsigned int index) const
 
 bool DoublyLinkedList::insert(DataType value, unsigned int index)
 {
-	if(index > size_ || index < 0){
+	if(index > size_ ){
 		return false;
 	}
 	else if(index == 0){
@@ -255,21 +255,93 @@ bool DoublyLinkedList::replace(unsigned int index, DataType value)
 }
 
 bool DoublyLinkedList::is_sorted_asc() const {
+	if(size_== 0 || size_ == 1) return true;
+	else{
+		Node* node = head_;
+		for(int i = 0; i < size_ - 1; i++){
+			if(node->value > node->next->value){
+				return false;
+			}
+			node = node->next;
+		}
+		return true;
+	}
 }
 
 bool DoublyLinkedList::is_sorted_desc() const {
+	if(size_== 0 || size_ == 1) return true;
+	else{
+		Node* node = head_;
+		for(int i = 0; i < size_ - 1; i++){
+			if(node->value < node->next->value){
+				return false;
+			}
+			node = node->next;
+		}
+		return true;
+	}
 }
 
 bool DoublyLinkedList::insert_sorted_asc(DataType val) {
+	if(size_ == 0) return insert_front(val);
+	else if(!full() && is_sorted_asc()){
+		Node* node = head_;
+		for(int i = 0; i < size_; i++){
+			if(node->value > val){
+				return this->insert(val, i);
+			}
+		}
+		return this->insert_back(val);;
+	}
+	return false;
 }
 
 bool DoublyLinkedList::insert_sorted_desc(DataType val) {
+	if(size_ == 0) return insert_front(val);
+	else if(!full() && is_sorted_desc()){
+		Node* node = head_;
+		for(int i = 0; i < size_; i++){
+			if(node->value < val){
+				return this->insert(val, i);
+			}
+		}
+		return this->insert_back(val);;
+	}
+	return false;
 }
 
 void DoublyLinkedList::sort_asc() {
+	for (int i = 0; i < size_-1; i++) {
+		Node* min = getNode(i);
+		Node* current = min->next;
+		for(int j = i; j < size_-1; j++){
+			if (current->value < min->value){
+				min = current;
+			}
+			current = current->next;
+		}
+		insert(min->value, i);
+		Node* temp = min;
+		temp->prev->next = temp->next;
+		temp->next->prev = temp->prev;
+		delete temp;
+		temp = NULL;
+	}
 }
     
 void DoublyLinkedList::sort_desc() {
+	for (int i = 0; i < size_-1; i++) {
+		Node* max = getNode(i);
+		Node* current = max->next;
+		for(int j = i; j < size_-1; j++){
+			if (current->value > max->value){
+				max = current;
+			}
+			current = current->next;
+		}
+		insert(max->value, i);
+		remove(search(max->value));
+	}
 }
 
 

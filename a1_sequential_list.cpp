@@ -213,11 +213,10 @@ bool SequentialList::insert_sorted_desc(DataType val) {
 }
 
 void SequentialList::sort_asc() {
-	while (!this->is_sorted_asc() && size_ != 0){
+	while (!this->is_sorted_asc()){
 		for (int i = 0; i < size_-1; i++){
 			if(data_[i] > data_[i+1]){
-				DataType temp;
-				temp = data_[i];
+				DataType temp = data_[i];
 				data_[i] = data_[i+1];
 				data_[i+1] = temp;
 			}
@@ -226,11 +225,10 @@ void SequentialList::sort_asc() {
 }
     
 void SequentialList::sort_desc() {
-	while (!this->is_sorted_desc() && size_ != 0){
+	while (!this->is_sorted_desc()){
 		for (int i = 0; i < size_-1; i++){
 			if(data_[i] < data_[i+1]){
-				DataType temp;
-				temp = data_[i];
+				DataType temp = data_[i];
 				data_[i] = data_[i+1];
 				data_[i+1] = temp;
 			}
