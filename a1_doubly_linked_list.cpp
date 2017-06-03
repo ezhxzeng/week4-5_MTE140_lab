@@ -194,7 +194,7 @@ bool DoublyLinkedList::remove(unsigned int index)
 		temp = NULL;
 		return true;
 	}
-}
+} 
 
 bool DoublyLinkedList::remove_front()
 {
