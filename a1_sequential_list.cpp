@@ -107,9 +107,10 @@ bool SequentialList::remove(unsigned int index)
 {
 	if (index < 0 || index > size_ || size_ == 0)	return false;
 	else {
-		for (int i = index; i < size_--; i++) {
+		for (int i = index; i < size_; i++) {
 			data_[i] = data_[i + 1];
 		}
+		size_--;
 		data_[size_] = NULL;
 		return true;
 	}
@@ -170,47 +171,79 @@ bool SequentialList::is_sorted_desc() const {
 }
 
 bool SequentialList::insert_sorted_asc(DataType val) {
-	for(int i = size_; i > 0; i--){
-		if(data_[i-1] < val){
-			data_[i] = val;
-			size_++;
-			return true;
+	if (!this->is_sorted_asc() || size_ == capacity_) return false;
+	else if(size_ == 0){
+		data_[0] = val;
+		size_++;
+		return true;
+	}
+	else{
+		for(int i = size_; i > 0; i--){
+			if(data_[i-1] < val){
+				data_[i] = val;
+				size_++;
+				this->print();
+				return true;
+			}
+			else{
+				data_[i] = data_[i-1];
+			}
 		}
-		else{
-			data_[i] = data_[i-1];
-		}
+		this->print();
+		data_[0] = val;
+		size_++;
+		return true;
 	}
 	return false;
 }
 
 bool SequentialList::insert_sorted_desc(DataType val) {
-	for(int i = size_; i > 0; i--){
-		if(data_[i-1] > val){
-			data_[i] = val;
+	if (!this->is_sorted_desc() || size_ == capacity_) return false;
+	else if(size_ == 0){
+		data_[0] = val;
+		size_++;
+		return true;
+	}
+	else{
+		for(int i = size_; i > 0; i--){
+			if(data_[i-1] > val){
+				data_[i] = val;
+				size_++;
+				return true;
+			}
+			else{
+				data_[i] = data_[i-1];
+			}
+			data_[0] = val;
 			size_++;
 			return true;
-		}
-		else{
-			data_[i] = data_[i-1];
 		}
 	}
 	return false;
 }
 
 void SequentialList::sort_asc() {
-	for(int i = size_; i > 0; i--){
-		DataType temp = data_[i];
-		remove(i);
-		insert_sorted_asc(temp);
+	while (!this->is_sorted_asc() && size_ != 0){
+		for (int i = 0; i < size_-1; i++){
+			if(data_[i] > data_[i+1]){
+				DataType temp;
+				temp = data_[i];
+				data_[i] = data_[i+1];
+				data_[i+1] = temp;
+			}
+		}
 	}
-	return;
 }
     
 void SequentialList::sort_desc() {
-	for(int i = size_; i > 0; i--){
-		DataType temp = data_[i];
-		remove(i);
-		insert_sorted_desc(temp);
+	while (!this->is_sorted_desc() && size_ != 0){
+		for (int i = 0; i < size_-1; i++){
+			if(data_[i] < data_[i+1]){
+				DataType temp;
+				temp = data_[i];
+				data_[i] = data_[i+1];
+				data_[i+1] = temp;
+			}
+		}
 	}
-	return;
 }
