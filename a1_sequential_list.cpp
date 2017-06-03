@@ -65,7 +65,7 @@ void SequentialList::print() const
 
 bool SequentialList::insert(DataType val, unsigned int index)
 {
-	if(index < 0 || index > size_ || size_ == capacity_) return false;
+	if(index > size_ || size_ == capacity_) return false;
 	else{
 		for (int i = size_; i > index ; i--)  {
 			data_[i] = data_[i-1];
@@ -111,7 +111,7 @@ bool SequentialList::insert_back(DataType val)
 
 bool SequentialList::remove(unsigned int index)
 {
-	if (index < 0 || index > size_ || size_ == 0)	return false;
+	if (index > size_ || size_ == 0)	return false;
 	else {
 		for (int i = index; i < size_; i++) {
 			data_[i] = data_[i + 1];
@@ -155,7 +155,7 @@ bool SequentialList::remove_back()
 
 bool SequentialList::replace(unsigned int index, DataType val)
 {
-	if(index < 0 || index > size_) return false;
+	if(index > size_) return false;
 	else{
 		data_[index] = val;
 		return true;
