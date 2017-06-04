@@ -311,36 +311,42 @@ bool DoublyLinkedList::insert_sorted_desc(DataType val) {
 }
 
 void DoublyLinkedList::sort_asc() {
-	for (int i = 0; i < size_-1; i++) {
-		Node* min = getNode(i);
-		Node* current = min->next;
-		for(int j = i; j < size_-1; j++){
-			if (current->value < min->value){
-				min = current;
+	if (size_ > 1){
+		Node* node = head_;
+		for (int i = 0; i < size_-1; i++) {
+			Node* min = node;
+			Node* current = min->next;
+			for(int j = i+1; j < size_; j++){
+				if (current->value < min->value){
+					min = current;
+				}
+				current = current->next;
 			}
-			current = current->next;
+			DataType temp = min->value;
+			min->value = node->value;
+			node->value = temp;
+			node = node->next;
 		}
-		insert(min->value, i);
-		Node* temp = min;
-		temp->prev->next = temp->next;
-		temp->next->prev = temp->prev;
-		delete temp;
-		temp = NULL;
 	}
 }
     
 void DoublyLinkedList::sort_desc() {
-	for (int i = 0; i < size_-1; i++) {
-		Node* max = getNode(i);
-		Node* current = max->next;
-		for(int j = i; j < size_-1; j++){
-			if (current->value > max->value){
-				max = current;
+	if (size_ > 1){
+		Node* node = head_;
+		for (int i = 0; i < size_-1; i++) {
+			Node* max = node;
+			Node* current = max->next;
+			for(int j = i+1; j < size_; j++){
+				if (current->value > max->value){
+					max = current;
+				}
+				current = current->next;
 			}
-			current = current->next;
+			DataType temp = max->value;
+			max->value = node->value;
+			node->value = temp;
+			node = node->next;
 		}
-		insert(max->value, i);
-		remove(search(max->value));
 	}
 }
 
