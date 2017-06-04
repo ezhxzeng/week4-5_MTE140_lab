@@ -290,6 +290,7 @@ bool DoublyLinkedList::insert_sorted_asc(DataType val) {
 			if(node->value > val){
 				return this->insert(val, i);
 			}
+			node = node->next;
 		}
 		return this->insert_back(val);;
 	}
@@ -304,6 +305,7 @@ bool DoublyLinkedList::insert_sorted_desc(DataType val) {
 			if(node->value < val){
 				return this->insert(val, i);
 			}
+			node = node->next;
 		}
 		return this->insert_back(val);;
 	}
