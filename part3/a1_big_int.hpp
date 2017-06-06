@@ -14,14 +14,14 @@ public:
 	BigInt(bool B[], int size);
 	
 	//takes string input, creates cooresponding BigInt
-	BigInt(string value);
-	
-	BigInt* add(BigInt* rhs); // computes “*this + *rhs”
-	BigInt* sub(BigInt* rhs); // computes “*this - *rhs”
-	BigInt* mul(BigInt* rhs); // computes “*this * *rhs” 
-	
-	BigInt* and(BigInt* rhs); // computes bitwise AND of “*this & *rhs”
-	BigInt* or(BigInt* rhs); // computes bitwise OR of “*this | *rhs”
-	BigInt* xor(BigInt* rhs); // computes bitwise XOR of “*this ^ *rhs” 
+//	BigInt(string value);
+//	
+//	BigInt* add(BigInt* rhs); // computes “*this + *rhs”
+//	BigInt* sub(BigInt* rhs); // computes “*this - *rhs”
+//	BigInt* mul(BigInt* rhs); // computes “*this * *rhs” 
+//	
+//	BigInt* and(BigInt* rhs); // computes bitwise AND of “*this & *rhs”
+//	BigInt* or(BigInt* rhs); // computes bitwise OR of “*this | *rhs”
+//	BigInt* xor(BigInt* rhs); // computes bitwise XOR of “*this ^ *rhs” 
 };
 #endif 
