@@ -1,9 +1,9 @@
-#ifndef A1_DOUBLY_LINKED_LIST_HPP
-#define A1_DOUBLY_LINKED_LIST_HPP
+#ifndef A1_DOUBLY_LINKED_LIST2_HPP
+#define A1_DOUBLY_LINKED_LIST2_HPP
 class DoublyLinkedList {
 public:
     // Can be seen outside as DoublyLinkedList::DataType
-    typedef int DataType;
+    typedef unsigned int DataType;
 
 private:
     // Befriend so tests have access to variables.
