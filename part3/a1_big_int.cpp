@@ -49,19 +49,20 @@ std::string dec2bin(unsigned int dec){
 }
 
 BigInt::BigInt(bool B[], int size) {
-    unsigned int bin;
+    std::string str = "";
     for (int i = 0; i < size / 32; i++) {
-        for (int j = i * 32; j < i * 32 + 32; j++) {
-            bin += B[j]*pow(10,i);
+        for (int j = i * 32; j < 32 * i + 31; j++) {
+            str += (B[j] ? "1" : "0");
         }
-        big_int->insert_front(bin);
+        number->insert_front(bin2dec(str));
     }
-    bin = 0;
-    for (int k = size % 32; k >= 0; k--) {
-        bin += B[k]*pow(10,k);
+    str = "";
+    for (int k = size - 1; k > (size / 32) - 1; k--) {
+        str += (B[k] ? "1" : "0") + str;
     }
-    big_int->insert_front(bin);
-    big_int->print();
+    number->insert_front(bin2dec(str));
+    bin_size_ = size;
+    number->print();
 }
 
 BigInt::get_bin_size() const{

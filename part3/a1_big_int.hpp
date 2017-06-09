@@ -7,7 +7,7 @@
 class BigInt {
 private:
 	int bin_size_;
-	DoublyLinkedList* big_int;
+	DoublyLinkedList* number;
 public:
 	//CONSTRUCTORS
 	//takes  as  input array  of  booleans and  the  size  of  the  array
