@@ -41,7 +41,7 @@ bool DoublyLinkedList::full() const
 
 DoublyLinkedList::DataType DoublyLinkedList::select(unsigned int index) const
 {
-	if(index >= size_ || index < 0){
+	if(index >= size_){
 		return tail_->value;
 	}
 	else{
@@ -240,7 +240,7 @@ bool DoublyLinkedList::remove_back()
 
 bool DoublyLinkedList::replace(unsigned int index, DataType value)
 {
-	if(index >= size_ || index < 0){
+	if(index >= size_){
 		return false;
 	}
 	else{

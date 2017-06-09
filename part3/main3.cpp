@@ -36,7 +36,7 @@ int main()
     big_int_test_results[7] = bitest.test8();
 
 
-	cout << "BIGINT TESTING RESULTS \n";
+	cout << "BIG INT TESTING RESULTS \n";
 	cout << "********************************** \n";
 	for (int i = 0; i < 8; i++) {
     	cout << big_int_test_descriptions[i] << endl << get_status_str(big_int_test_results[i]) << endl;
