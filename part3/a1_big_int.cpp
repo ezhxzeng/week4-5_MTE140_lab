@@ -80,3 +80,37 @@ BigInt::BigInt(bool B[], int size) {
 int BigInt::get_bin_size() const{
 	return bin_size_;
 }
+
+int BigInt::amount_nodes(Node* initial) const {
+    if (initial == NULL)
+        return 0;
+    return 1 + amount_nodes(initial->next);
+}
+
+BigInt* BigInt::add(BigInt* rhs) const {
+    
+    long long sum = 0;
+    long long carry = 0;
+    
+    end_this = number->head_;
+    end_rhs = rhs->number->head_
+    
+    BigInt* answer = new BigInt;
+    
+    int count = (amount_nodes(number->head_) < amount_nodes(rhs->number->head_) ? amount_nodes(number->head_) : amount_nodes(rhs->number->head_));
+    
+    for (int i = 0; i < count; i++) {
+        sum = end_this->value + end_rhs->value + carry;
+        answer->insert_back(sum % pow(2, 32));
+        carry = sum / pow(2, 32);
+        end_this = end_this->next;
+        end_rhs = end_rhs->next;
+    }
+    
+    for (int i = 0; i < carry / pow(2, 32); i++) {
+        answer->insert_back(pow(2, 32));
+    }
+    
+    answer->insert_back(carry % pow(2, 32));
+    
+}
