@@ -77,6 +77,6 @@ BigInt::BigInt(bool B[], int size) {
     number->print();
 }
 
-BigInt::get_bin_size() const{
+int BigInt::get_bin_size() const{
 	return bin_size_;
 }
