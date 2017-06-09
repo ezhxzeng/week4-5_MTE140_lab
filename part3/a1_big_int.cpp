@@ -81,7 +81,7 @@ int BigInt::get_bin_size() const{
 	return bin_size_;
 }
 
-int BigInt::amount_nodes(Node* initial) const {
+int BigInt::amount_nodes(DoublyLinkedList::Node* initial) const {
     if (initial == NULL)
         return 0;
     return 1 + amount_nodes(initial->next);

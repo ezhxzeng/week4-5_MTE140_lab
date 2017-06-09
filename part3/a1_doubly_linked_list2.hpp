@@ -8,6 +8,9 @@ public:
 private:
     // Befriend so tests have access to variables.
 	friend class DoublyLinkedListTest;
+    
+    // Befriend BigInt so functions have access to private variables.
+    friend class BigInt;
  
     // This type of list can basically grow as large as we want it to,
     // so we'll just pick an arbitrary large value as the capacity for
