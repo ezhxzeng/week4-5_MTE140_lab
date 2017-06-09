@@ -13,6 +13,8 @@ public:
 	// Constructor with boolean list and size input
     bool test1()
     {
+    	bool test_arr[3] = {true, true, true};
+    	BigInt test(test_arr, 3);
 	    return true;
     }
 

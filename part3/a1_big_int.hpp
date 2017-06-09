@@ -7,7 +7,7 @@
 class BigInt {
 private:
 	int bin_size_;
-	DoublyLinkedList big_int;
+	DoublyLinkedList* big_int;
 public:
 	//CONSTRUCTORS
 	//takes  as  input array  of  booleans and  the  size  of  the  array
@@ -16,6 +16,11 @@ public:
 	
 	//takes string input, creates cooresponding BigInt
 	BigInt(std::string value);
+	
+	int get_bin_size() const; //gets the bin_size_
+	DoublyLinkedList* get_linked_list() const; //gets pointer to big_int
+	
+	void print() const; //prints boolean in string format
 	
 	BigInt* add(BigInt* rhs); // computes “*this + *rhs”
 	BigInt* sub(BigInt* rhs); // computes “*this - *rhs”

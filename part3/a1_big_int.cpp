@@ -2,11 +2,9 @@
 #include <iostream>
 #include <cmath>
 
-int ascii2int(std::string str) { //assuming only values 0-9
+unsigned int ascii2int(std::string str) { //assuming only values 0-9
 	if (str.empty())
 		return 0;
-	else if (str.at(0) == '-')
-		return -1 * ascii2int(str.substr(1));
 	else if (str.at(0) > '9' || str.at(0) < '0')
 		return ascii2int(str.substr(1));
 	else{
@@ -17,7 +15,7 @@ int ascii2int(std::string str) { //assuming only values 0-9
 	}
 }
 
-std::string int2ascii(int num){
+std::string int2ascii(unsigned int num){
 	std::string converter[10] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 	if(num < 10){
 		return (converter[num]);
@@ -27,7 +25,7 @@ std::string int2ascii(int num){
 	}
 }
 
-int bin2dec(std::string str){
+unsigned int bin2dec(std::string str){
 	if (str.empty())
 		return 0;
 	else{
@@ -38,7 +36,7 @@ int bin2dec(std::string str){
 	}
 }
 
-std::string dec2bin(int dec){
+std::string dec2bin(unsigned int dec){
 	if (dec == 0){
 		return ("0");
 	}
@@ -48,4 +46,24 @@ std::string dec2bin(int dec){
 	else{
 		return (dec2bin(dec/2) + (dec%2 ? "1":"0"));
 	}
+}
+
+BigInt::BigInt(bool B[], int size) {
+    std::string str = "";
+    for (int i = 0; i < size / 32; i++) {
+        for (int j = i * 32; j < i * 32 + 32; j++) {
+            str += (B[j] ? "1" : "0");
+        }
+        big_int->insert_front(bin2dec(str));
+    }
+    str = "";
+    for (int k = size % 32; k >= 0; k--) {
+        str += (B[k] ? "1" : "0");
+    }
+    big_int->insert_front(bin2dec(str));
+    big_int->print();
+}
+
+BigInt::get_bin_size() const{
+	return bin_size_;
 }
