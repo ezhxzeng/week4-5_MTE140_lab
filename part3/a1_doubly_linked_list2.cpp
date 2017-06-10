@@ -15,15 +15,20 @@ DoublyLinkedList::DoublyLinkedList()
 
 DoublyLinkedList::~DoublyLinkedList()
 {
-    Node* next = head_->next;
-    Node* node = head_;
-    while (node->next != NULL) {
-        delete node;
-        node = NULL;
-        node = next;
-        next = next->next;
-        
-    }
+	if(size_ != 0){
+		Node* next = NULL;
+	    Node* node = head_;
+	    while (node->next != NULL) {
+	    	next = node->next;
+	        delete node;
+	        node = NULL;
+	        node = next;
+	        next = next->next;
+	    }
+	    head_ = NULL;
+	    tail_ = NULL;
+	    size_ == 0;
+	}
 }
 
 unsigned int DoublyLinkedList::size() const
