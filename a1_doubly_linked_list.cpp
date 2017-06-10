@@ -119,23 +119,37 @@ DoublyLinkedList::Node* DoublyLinkedList::getNode(unsigned int index) const
     }
 }
 
+/**
+ * Insert node at specified index in the list.
+ *
+ * @param value to insert at specified index.
+ * @param index at which value should be inserted.
+ * @return true if insert operation at index is successful.
+ * @return false if insert operation at index is unsuccessful.
+ */
 bool DoublyLinkedList::insert(DataType value, unsigned int index)
 {
 	if(index > size_ ){
+        // do not insert value at index if index is greater than the size of the list
 		return false;
 	}
 	else if(index == 0){
+        // insert value at front if index corresponds to the beginnning of list
 		return insert_front(value);
 	}
 	else if(index == size_){
+        // insert value at back if index corresponds to the size / end of the list
 		return insert_back(value);
 	}
 	else{
 		Node* select = head_;
+        // traverse to index of point of insertion
 		for(int i = 0; i < index; i++){
-			select = select-> next;
+			select = select->next;
 		}
-		Node* temp = new Node(value);
+        // create a new node of value to be inserted
+        Node* temp = new Node(value);
+        // change associations, next and prev, of nodes before and after point of insertion to include new node at index
 		temp->prev = select->prev;
 		temp->next = select;
 		select->prev = temp;
@@ -147,8 +161,16 @@ bool DoublyLinkedList::insert(DataType value, unsigned int index)
 	return false;
 }
 
+/**
+ * Insert node at front of the list.
+ *
+ * @param value to insert at front of list.
+ * @return true if insertion of new node with value at front of the list is successful.
+ * @return false if insertion of new node with value at front of the list is unsuccessful.
+ */
 bool DoublyLinkedList::insert_front(DataType value)
 {
+    // make new node with specified value the head and tail of the list if size of list is zero
 	if(size_ == 0){
 		head_ = new Node(value);
 		tail_ = head_;
@@ -157,6 +179,7 @@ bool DoublyLinkedList::insert_front(DataType value)
 		size_ ++;
 		return true;
 	}
+    // change next and prev associations of head node of list to include a new node of specified value
 	else{
 		Node* temp = head_;
 		head_ = new Node(value);
@@ -169,8 +192,16 @@ bool DoublyLinkedList::insert_front(DataType value)
 	return false;
 }
 
+/**
+ * Insert node at the back of the list.
+ *
+ * @param value to insert at back of list.
+ * @return true if insertion of new node with value at back of the list is successful.
+ * @return false if insertion of new node with value at back of the list is unsuccessful.
+ */
 bool DoublyLinkedList::insert_back(DataType value)
 {
+    // make new node with specified value the head and tail of the list if size of list is zero
 	if(size_ == 0){
 		head_ = new Node(value);
 		tail_ = head_;
@@ -179,6 +210,7 @@ bool DoublyLinkedList::insert_back(DataType value)
 		size_ ++;
 		return true;
 	}
+    // change next and prev associations of tail node of the list to include a new node of specified value
 	else{
 		Node* temp = tail_;
 		tail_ = new Node(value);
@@ -191,8 +223,16 @@ bool DoublyLinkedList::insert_back(DataType value)
 	return false;
 }
 
+/**
+ * Remove list node at the index specified.
+ *
+ * @param index of node to be removed from the list.
+ * @return true if removal of new node at specified index is successful.
+ * @return false if removal of new node at specified index is successful.
+ */
 bool DoublyLinkedList::remove(unsigned int index)
 {
+    // removal of node at index is unsuccessful if index is greater than the end index of the list
 	if (index > (size_ - 1)) return false;
     else if (index == (size_ - 1)){
     	return remove_back();
@@ -201,7 +241,7 @@ bool DoublyLinkedList::remove(unsigned int index)
 		return remove_front(); 
 	}
 	else{
-		Node* temp = this->getNode(index);
+		Node* temp = getNode(index);
 		temp->prev->next = temp->next;
 		temp->next->prev = temp->prev;
 		delete temp;
