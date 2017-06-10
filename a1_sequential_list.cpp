@@ -5,14 +5,14 @@
 
 SequentialList::SequentialList(unsigned int cap)
 {
-	capacity_ = cap;
+	capacity_ = cap; 
 	size_ = 0 ;
-	data_ = new DataType[cap];
+	data_ = new DataType[cap]; // create array of DataType of size cap
 }
 
 SequentialList::~SequentialList()
 {
-	delete [] data_;
+	delete [] data_; // free data_ dynamic array
 	data_ = NULL;
 }
 
@@ -41,37 +41,38 @@ bool SequentialList::full() const
 SequentialList::DataType SequentialList::select(unsigned int index) const
 {
 	if (index < size_){
-		return data_[index];
+		return data_[index]; // return value at index
 	}
-	return data_[size_];
+	return data_[size_]; // return value at last index if index is out of range of list size
 }
 
 unsigned int SequentialList::search(DataType val) const
 {
 	for (int i = 0; i < size_; i++) {
 		if (data_[i] == val)
-			return i;
+			return i; // return index of value if it is found in list
 	}
-	return size_;
+	return size_; // return size of list if value is not found in list
 }
 
 void SequentialList::print() const
 {
+    std::cout << "START" << std::endl;
 	for (int i = 0; i < size_; i++){
 		std::cout << data_[i] << std::endl;
 	}
-	std::cout << "end print" << std::endl;
+	std::cout << "END" << std::endl;
 }
 
 bool SequentialList::insert(DataType val, unsigned int index)
 {
-	if(index > size_ || size_ == capacity_) return false;
-	else{
-		for (int i = size_; i > index ; i--)  {
+	if (index > size_ || size_ == capacity_) return false;
+	else {
+		for (int i = size_; i > index ; i--)  { // move values after index of insertion to their subsequent index
 			data_[i] = data_[i-1];
 		}
-		data_[index] = val;
-		size_++;
+		data_[index] = val; // insert value at index in list
+		size_++; // increment size of list due to addition on another value
 		return true;
 	}
 	return false;
@@ -89,9 +90,9 @@ bool SequentialList::insert_front(DataType val)
 	}
 	else {
 		for (int i = size_; i > 0 ; i--)  {
-			data_[i] = data_[i-1];
+			data_[i] = data_[i-1]; // move values after index of insertion to their subsequent index
 		}
-		data_[0] = val;
+		data_[0] = val; // insert value at the beginning of the list
 		size_++;
 		return true;
 	}
