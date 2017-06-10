@@ -53,20 +53,31 @@ BigInt::~BigInt(){
 	number = NULL;
 }
 
+/**
+ * Construct a big integer from binary form with its specified length.
+ *
+ * @param B[] boolean array consisting of the binary form of big integer.
+ * @param size or length of the binary form of big integer.
+ */
 BigInt::BigInt(bool B[], int size) {
 	std::string str = "";
+	// iterate through boolean array to create nodes of 32 bits
     for (int i = 0; i < size / 32; i++) {
+    	// iterate through each bit in boolean array to create a binary string
         for (int j = i * 32; j < 32 * i + 32; j++) {
             str += (B[j] ? "1" : "0");
         }
+        // create and insert a node of the decimal value of the binary string into the big integer
         number->insert_front(bin2dec(str));
         str = "";
     }
     
     str = "";
+    // iterate through the remaining bits that are less than 32 bits
     for (int k = size - 1; k > (size / 32) * 32 - 1; k--) {
         str = (B[k] ? "1" : "0") + str;
     }
+    // create and insert a node of the decimal value of the binary string into the big integer
     number->insert_front(bin2dec(str));
     bin_size_ = size;
     std::cout << "constructor:";
@@ -83,6 +94,12 @@ int BigInt::amount_nodes(DoublyLinkedList::Node* initial) const {
     return 1 + amount_nodes(initial->next);
 }
 
+/**
+ * Add two big integers.
+ *
+ * @param rhs (big integer to add to current big integer)
+ * @return BigInt* that points to the big integer sum of the two big integers.
+ */
 BigInt* BigInt::add(BigInt* rhs) const {
     
     long long sum = 0;
@@ -107,6 +124,7 @@ BigInt* BigInt::add(BigInt* rhs) const {
     long_count -= count;
     
     for (int i = 0; i < count; i++) {
+    	// apply algorithm that adds two values and creates a carry for the next two values at next two nodes
         sum = end_this->value + end_rhs->value + carry;
         answer->number->insert_back(sum % int(pow(2, 32)));
         carry = sum / int(pow(2, 32));
@@ -120,6 +138,8 @@ BigInt* BigInt::add(BigInt* rhs) const {
 //        answer->number->insert_back(pow(2, 32));
 //    }
 
+	// insert extra nodes if carry is greater than the base 2^32
+	// add leftover nodes (i.e. big integer nodes that are of greater number than the other big integer being added
     while (carry / int(pow(2, 32)) > 0){
     	sum = end_longer->value + carry;
     	answer->number->insert_back(sum % int(pow(2, 32)));
@@ -134,6 +154,7 @@ BigInt* BigInt::add(BigInt* rhs) const {
 		end_longer = end_longer->next;
 	}
 	
+	// debugging phase of code
     std::cout << "finished addition of leftover nodes" << std::endl;
     
     std::cout << "addition of:" << std::endl;
@@ -144,6 +165,12 @@ BigInt* BigInt::add(BigInt* rhs) const {
 	return answer;
 }
 
+/**
+ * Apply the bitwise AND operator to two big integers.
+ *
+ * @param rhs (big integer to AND to current big integer)
+ * @return BigInt* that points to the resulting big integer after AND operation is applied to the two big integers.
+ */
 BigInt* BigInt::and_(BigInt* rhs) {
     
     DoublyLinkedList::Node* end_this = number->head_;
@@ -152,14 +179,17 @@ BigInt* BigInt::and_(BigInt* rhs) {
     BigInt ans;
     BigInt* answer = &ans;
     
+    // determine which big integer has lower number of nodes
     int count = (amount_nodes(number->head_) < amount_nodes(rhs->number->head_) ? amount_nodes(number->head_) : amount_nodes(rhs->number->head_));
     
+    // apply AND operation to corresponding nodes of each big integer and append to answer big integer
     for (int i = 0; i < count; i++) {
         answer->number->insert_back(end_this->value & end_rhs->value);
         end_rhs = end_rhs->next;
         end_this = end_this->next;
     }
     
+    // add new nodes to answer big integer that are correspond to the nodes of the big integer with the greater amount of nodes
     for (int i = 0; i < count - (amount_nodes(number->head_) > amount_nodes(rhs->number->head_) ? amount_nodes(number->head_) : amount_nodes(rhs->number->head_)); i++) {
         answer->number->insert_back(0);
     }
