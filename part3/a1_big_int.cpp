@@ -70,7 +70,6 @@ BigInt::BigInt(bool B[], int size) {
         for (int j = i * 32; j < 32 * i + 32; j++) {
             str += (B[j] ? "1" : "0");
         }
-        std::cout << str << std::endl << i<< std::endl;
         number->insert_front(bin2dec(str));
         str = "";
     }
@@ -79,10 +78,10 @@ BigInt::BigInt(bool B[], int size) {
     for (int k = size - 1; k > (size / 32) * 32 - 1; k--) {
         str = (B[k] ? "1" : "0") + str;
     }
-    std::cout << str << std::endl << size/32 << std::endl;
     number->insert_front(bin2dec(str));
     bin_size_ = size;
-    number->print();
+    std::cout << "constructor:";
+	number->print();
 }
 
 int BigInt::get_bin_size() const{
@@ -103,26 +102,55 @@ BigInt* BigInt::add(BigInt* rhs) const {
     DoublyLinkedList::Node* end_this = number->head_;
     DoublyLinkedList::Node* end_rhs = rhs->number->head_;
     
-    BigInt* answer = new BigInt;
+    BigInt ans;
+    BigInt* answer = &ans;
     
-    int count = (amount_nodes(number->head_) < amount_nodes(rhs->number->head_) ? amount_nodes(number->head_) : amount_nodes(rhs->number->head_));
+    int count = amount_nodes(number->head_);
+    int long_count = amount_nodes(rhs->number->head_);
+    DoublyLinkedList::Node* end_longer = number->head_;
+    
+    if (amount_nodes(number->head_) > amount_nodes(rhs->number->head_)){
+    	end_longer = rhs->number->head_;
+    	long_count = count;
+		count = amount_nodes(rhs->number->head_);
+	}
+    
+    long_count -= count;
     
     for (int i = 0; i < count; i++) {
         sum = end_this->value + end_rhs->value + carry;
         answer->number->insert_back(sum % int(pow(2, 32)));
-        carry = sum / pow(2, 32);
+        carry = sum / int(pow(2, 32));
         end_this = end_this->next;
         end_rhs = end_rhs->next;
+        end_longer = end_longer->next;
     }
     
-    for (int i = 0; i < carry / pow(2, 32); i++) {
-        answer->number->insert_back(pow(2, 32));
-    }
+    std::cout << "finished addition of related nodes" << std::endl;
+//    for (int i = 0; i < carry / int(pow(2, 32)); i++) {
+//        answer->number->insert_back(pow(2, 32));
+//    }
     
-    answer->number->insert_back(carry % int(pow(2, 32)));
-}
-
-std::string LinkedList2String(DoublyLinkedList::Node* head, int size){
-	std::string bin = "";
+    while (carry / int(pow(2, 32)) > 0){
+    	sum = end_longer->value + carry;
+    	answer->number->insert_back(sum % int(pow(2, 32)));
+    	carry = sum / int(pow(2, 32));
+    	end_longer = end_longer->next;
+	}
 	
+	std::cout << "finished addition of carry" << std::endl;
+	
+	for(int i = 0; i < long_count; i++){
+		answer->number->insert_back(end_longer->value);
+		end_longer = end_longer->next;
+	}
+	
+    std::cout << "finished addition of leftover nodes" << std::endl;
+    
+    std::cout << "addition of:" << std::endl;
+    this->number->print();
+    rhs->number->print();
+    std::cout << "results:" << std::endl;
+    answer->number->print();
+	return answer;
 }

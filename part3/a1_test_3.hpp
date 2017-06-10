@@ -19,6 +19,7 @@ public:
 	    bool test_arr_big[50] = {1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1};
 		BigInt test2(test_arr_big, 50);
     	ASSERT_TRUE(test2.get_bin_size() == 50);
+    	//note: manually checked that the doubly linked list matched with input
     	return true;
     }
 
@@ -31,6 +32,12 @@ public:
 	// addition
     bool test3()
     {
+    	bool test_arr[3] = {1,0,1};
+    	BigInt test(test_arr, 3);
+    	ASSERT_TRUE(test.get_bin_size() == 3)
+	    bool test_arr_big[50] = {1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1};
+		BigInt test2(test_arr_big, 50);
+		BigInt* answer = test2.add(&test);
 	    return true;
     }
     
