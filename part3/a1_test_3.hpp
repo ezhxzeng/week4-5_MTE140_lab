@@ -18,7 +18,7 @@ public:
     	ASSERT_TRUE(test.get_bin_size() == 3)
 	    bool test_arr_big[50] = {1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1};
 		BigInt test2(test_arr_big, 50);
-    	ASSERT_TRUE(test.get_bin_size() == 50);
+    	ASSERT_TRUE(test2.get_bin_size() == 50);
     	return true;
     }
 

@@ -89,14 +89,14 @@ unsigned int DoublyLinkedList::search(DataType value) const
 void DoublyLinkedList::print() const
 {
 	if(head_ == NULL) return;
-	std::cout << "(";
+	std::cout << "(NULL <-";
 	Node* node = head_;
 	while(node != NULL){
 		std::cout << "[" << node->value << "]" ;
 		node = node->next;
 		if (node!= NULL) std::cout << "-><-";
 	}
-	std::cout << "-> NULL" << std::endl;
+	std::cout << "-> NULL)" << std::endl;
 }
 
 DoublyLinkedList::Node* DoublyLinkedList::getNode(unsigned int index) const

@@ -65,21 +65,18 @@ BigInt::~BigInt(){
 }
 
 BigInt::BigInt(bool B[], int size) {
-    std::string str = "";
+	std::string str = "";
     for (int i = 0; i < size / 32; i++) {
-    	std::cout << "1" << std::endl;
         for (int j = i * 32; j < 32 * i + 32; j++) {
-            str = (B[j] ? "1" : "0") + str;
+            str += (B[j] ? "1" : "0");
         }
         std::cout << str << std::endl << i<< std::endl;
         number->insert_front(bin2dec(str));
-        //segmentation fault
-        
-        std::cout << "end 1" << std::endl;
         str = "";
     }
+    
     str = "";
-    for (int k = size - 1; k > (size / 32) - 1; k--) {
+    for (int k = size - 1; k > (size / 32) * 32 - 1; k--) {
         str = (B[k] ? "1" : "0") + str;
     }
     std::cout << str << std::endl << size/32 << std::endl;
