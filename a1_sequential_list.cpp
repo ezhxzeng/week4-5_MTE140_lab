@@ -66,13 +66,24 @@ void SequentialList::print() const
 
 bool SequentialList::insert(DataType val, unsigned int index)
 {
+/**
+ * insert value at given index.
+ *
+ * @param val value to insert.
+ * @param index index to insert at
+ * @return true if successful.
+ */
 	if (index > size_ || size_ == capacity_) return false;
 	else {
-		for (int i = size_; i > index ; i--)  { // move values after index of insertion to their subsequent index
+		// move values after index of insertion to their subsequent index
+		for (int i = size_; i > index ; i--)  {
 			data_[i] = data_[i-1];
 		}
-		data_[index] = val; // insert value at index in list
-		size_++; // increment size of list due to addition on another value
+		// insert value at index in list
+		data_[index] = val;
+		
+		// increment size of list due to addition on another value
+		size_++;
 		return true;
 	}
 	return false;
@@ -80,19 +91,32 @@ bool SequentialList::insert(DataType val, unsigned int index)
 
 bool SequentialList::insert_front(DataType val)
 {
-	if (size_ == 0) {
+/**
+ * insert value at first index.
+ *
+ * @param val value to insert.
+ * @return true if successful.
+ */
+ 
+ 	// no need to move subsequent values if size==0
+	if (size_ == 0) { 
 		data_[0] = val;
 		size_++;
 		return true;
 	}
+	
+	//fail if the list is already at capacity
 	else if (size_ == capacity_) {
 		return false;
 	}
+	
 	else {
 		for (int i = size_; i > 0 ; i--)  {
-			data_[i] = data_[i-1]; // move values after index of insertion to their subsequent index
+			// move values after index of insertion to their subsequent index
+			data_[i] = data_[i-1];
 		}
-		data_[0] = val; // insert value at the beginning of the list
+		// insert value at the beginning of the list
+		data_[0] = val;
 		size_++;
 		return true;
 	}
@@ -101,6 +125,13 @@ bool SequentialList::insert_front(DataType val)
 
 bool SequentialList::insert_back(DataType val)
 {
+/**
+ * insert value to end.
+ *
+ * @param val value to insert.
+ * @return true if successful.
+ */
+ 	//only insert if list is not yet full
 	if (size_ < capacity_) {
 		data_[size_] = val;
 		size_++;
@@ -112,11 +143,20 @@ bool SequentialList::insert_back(DataType val)
 
 bool SequentialList::remove(unsigned int index)
 {
+/**
+ * remove value from index.
+ *
+ * @param index index of point to remove.
+ * @return true if successful.
+ */
+ 	//check if index is valid
 	if (index > size_ || size_ == 0)	return false;
 	else {
+		//move everything after the index forward
 		for (int i = index; i < size_; i++) {
 			data_[i] = data_[i + 1];
 		}
+		//decrement size
 		size_--;
 		//data_[size_] = NULL;
 		return true;
@@ -126,12 +166,20 @@ bool SequentialList::remove(unsigned int index)
 
 bool SequentialList::remove_front()
 {
+/**
+ * remove value from front.
+ *
+ * @return true if successful.
+ */
+ 	// check if there is anything to remove
 	if (size_ == 0)	return false;
+	// if there's only one, no need to move anything else
 	else if (size_ == 1) {
 		//data_[0] = NULL;
 		size_ = 0;
 		return true;
 	}
+	// move everything forward by one
 	else {
 		for (int i = 0; i < size_; i++) {
 			data_[i] = data_[i + 1];
@@ -145,7 +193,14 @@ bool SequentialList::remove_front()
 
 bool SequentialList::remove_back()
 {
+/**
+ * remove value from back.
+ *
+ * @return true if successful.
+ */
+ 	// check if there is anything to remove
 	if (size_ == 0)	return false;
+	// if valid, decrement size
 	else{
 		//data_[size_] = NULL;
 		size_--;
@@ -156,7 +211,16 @@ bool SequentialList::remove_back()
 
 bool SequentialList::replace(unsigned int index, DataType val)
 {
+/**
+ * replace value at index.
+ *
+ * @param index where to replace value.
+ * @param val value to replace with
+ * @return true if successful.
+ */
+ 	// check if index is valid
 	if(index > size_) return false;
+	//set value at index to be val
 	else{
 		data_[index] = val;
 		return true;
@@ -181,40 +245,70 @@ bool SequentialList::is_sorted_desc() const {
 }
 
 bool SequentialList::insert_sorted_asc(DataType val) {
+/**
+ * insert in a way to maintain ascending sort.
+ *
+ * @param val value to insert.
+ * @return true if successful.
+ */
+ 	// if nothing present, insert at front
 	if(size_ == 0){
 		this->insert_front(val);
 		return true;
 	}
+	// only insert if already sorted, and is not full
 	else if (this->is_sorted_asc() && size_ != capacity_){
+		// go through the list until the next value is greater than val
 		for(int i = 0; i < size_; i++){
 			if(val < data_[i]){
+				// insert val into index where data_[i] is greater
+				// use insert function so data_[i] then goes behind inserted val 
 				this->insert(val, i);
 				return true;
 			}
 		}
+		//if val is larger than anything already present, insert at back
 		return this->insert_back(val);
 	}
 	return false;
 }
 
 bool SequentialList::insert_sorted_desc(DataType val) {
+/**
+ * insert in a way to maintain descending sort.
+ *
+ * @param val value to insert.
+ * @return true if successful.
+ */
+ 	// if nothing present, insert at front
 	if(size_ == 0){
 		this->insert_front(val);
 		return true;
 	}
+	// only insert if already sorted, and is not full
 	else if (this->is_sorted_desc() && size_ != capacity_){
+		// go through the list until the next value is smaller than val
 		for(int i = 0; i < size_; i++){
 			if(val > data_[i]){
+				// insert val into index where data_[i] is smaller
+				// use insert function so data_[i] then goes behind inserted val 
 				return this->insert(val, i);
 			}
 		}
+		//if val is smaller than anything already present, insert at back
 		return this->insert_back(val);
 	}
 	return false;
 }
 
 void SequentialList::sort_asc() {
+/**
+ * sort the list to be ascending.
+ *
+ */
+ 	// finish loop when this is confirmed to be sorted
 	while (!this->is_sorted_asc()){
+		//if values immediatly next to each other are not ascending, switch the values
 		for (int i = 0; i < size_-1; i++){
 			if(data_[i] > data_[i+1]){
 				DataType temp = data_[i];
@@ -226,7 +320,13 @@ void SequentialList::sort_asc() {
 }
     
 void SequentialList::sort_desc() {
+/**
+ * sort the list to be decending.
+ *
+ */
+ 	// finish loop when this is confirmed to be sorted
 	while (!this->is_sorted_desc()){
+		//if values immediatly next to each other are not decending, switch the values
 		for (int i = 0; i < size_-1; i++){
 			if(data_[i] < data_[i+1]){
 				DataType temp = data_[i];
