@@ -25,17 +25,6 @@ std::string int2ascii(unsigned int num){
 	}
 }
 
-//unsigned int bin2dec(std::string str){
-//	if (str.empty())
-//		return 0;
-//	else{
-//		return bin2dec(str.substr(1))
-//				//substr makes a new substring from the second character on
-//				+ (str.at(0) - '0') * pow(2, str.length() -1);
-//				//when adding or subtracting char; +- deals with ascii values
-//	}
-//}
-
 unsigned int bin2dec(std::string str){
     if (!str.length())
         return 0;
@@ -130,7 +119,7 @@ BigInt* BigInt::add(BigInt* rhs) const {
 //    for (int i = 0; i < carry / int(pow(2, 32)); i++) {
 //        answer->number->insert_back(pow(2, 32));
 //    }
-    
+
     while (carry / int(pow(2, 32)) > 0){
     	sum = end_longer->value + carry;
     	answer->number->insert_back(sum % int(pow(2, 32)));
@@ -153,4 +142,27 @@ BigInt* BigInt::add(BigInt* rhs) const {
     std::cout << "results:" << std::endl;
     answer->number->print();
 	return answer;
+}
+
+BigInt* BigInt::and_(BigInt* rhs) {
+    
+    DoublyLinkedList::Node* end_this = number->head_;
+    DoublyLinkedList::Node* end_rhs = rhs->number->head_;
+    
+    BigInt ans;
+    BigInt* answer = &ans;
+    
+    int count = (amount_nodes(number->head_) < amount_nodes(rhs->number->head_) ? amount_nodes(number->head_) : amount_nodes(rhs->number->head_));
+    
+    for (int i = 0; i < count; i++) {
+        answer->number->insert_back(end_this->value & end_rhs->value);
+        end_rhs = end_rhs->next;
+        end_this = end_this->next;
+    }
+    
+    for (int i = 0; i < count - (amount_nodes(number->head_) > amount_nodes(rhs->number->head_) ? amount_nodes(number->head_) : amount_nodes(rhs->number->head_)); i++) {
+        answer->number->insert_back(0);
+    }
+        
+        return answer;
 }
